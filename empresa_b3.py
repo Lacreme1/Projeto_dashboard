@@ -1,36 +1,42 @@
 import pandas as pd
-
-df = pd.read_excel('ABEV3_evolucao.xlsx')
-print(df)
-# selecionando a coluna 'valor' e aplicando funções estatísticas
-df['valor'].max()
-df['valor'].min()
-df['valor'].mean()
-df['valor'].std()
-# selecionar linhas
-df[0:1]
-# selecionando linhas e colunas
-colunas = ['conta','valor']
-df[23:24][colunas]
-# filtrar linhas atraves valor
-df['trimestre'] == '20262T'
-colunas = ['conta','valor']
-df[linhas][colunas]
-# Lucros total
-linhas = df ['conta'] == 'lucro'
-colunas = ['valor']
-df[linhas][colunas].mean()
-# Importação para gráficos
 import seaborn as sns
 import matplotlib.pyplot as plt
-# grafico
-import seaborn as sns
-dados= df[linhas][colunas]
-sns.lineplot(dados)
-# Gráfico do lucro
-linhas = df['conta'] == 'lucro'
-colunas = ['trimestre', 'valor']
-dados = df[linhas][colunas]
-sns.lineplot(dados,x= 'trimestre', y='valor')
-plt.title('grafico do lucro')
-plt.xticks(rotatiom=45)
+
+# Carregando os dados
+df = pd.read_excel('ABEV3_evolucao.xlsx')
+print(df)
+
+# Selecionando a coluna 'valor' e aplicando funções estatísticas
+print(df['valor'].max())
+print(df['valor'].min())
+print(df['valor'].mean())
+print(df['valor'].std())
+
+# Selecionando linhas específicas (exemplo: primeira linha)
+print(df[0:1])
+
+# Selecionando linhas e colunas específicas
+colunas = ['conta', 'valor']
+print(df.loc[23:24, colunas])
+
+# Filtrando linhas através do valor do trimestre
+linhas_trimestre = df['trimestre'] == '20262T'
+colunas_filtro = ['conta', 'valor']
+print(df.loc[linhas_trimestre, colunas_filtro])
+
+# Média do lucro total
+linhas_lucro = df['conta'] == 'lucro'
+coluna_valor = ['valor']
+print(df.loc[linhas_lucro, coluna_valor].mean())
+
+# Gráfico do lucro por trimestre
+fig, ax = plt.subplots(figsize=(10, 5))
+dados_grafico = df[df['conta'] == 'lucro']
+
+sns.lineplot(data=dados_grafico, x='trimestre', y='valor', ax=ax)
+ax.set_title('Gráfico do Lucro')
+plt.xticks(rotation=45)
+
+# Se estiver usando Streamlit para exibir gráficos, use st.pyplot(fig)
+import streamlit as st
+st.pyplot(fig)
