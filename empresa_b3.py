@@ -14,7 +14,6 @@ colunas = ['conta','valor']
 df[23:24][colunas]
 # filtrar linhas atraves valor
 df['trimestre'] == '20262T'
-linhas = df ['conta'] == 'lucro'
 colunas = ['conta','valor']
 df[linhas][colunas]
 # Lucros total
