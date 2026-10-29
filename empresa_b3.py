@@ -1,33 +1,27 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import streamlit as st
 
 # Carregando os dados
 df = pd.read_excel('ABEV3_evolucao.xlsx')
-print(df)
+st.write(df)
 
-# Selecionando a coluna 'valor' e aplicando funções estatísticas
-print(df['valor'].max())
-print(df['valor'].min())
-print(df['valor'].mean())
-print(df['valor'].std())
+# Estatísticas da coluna 'valor'
+st.write("Máximo:", df['valor'].max())
+st.write("Mínimo:", df['valor'].min())
+st.write("Média:", df['valor'].mean())
+st.write("Desvio Padrão:", df['valor'].std())
 
-# Selecionando linhas específicas (exemplo: primeira linha)
-print(df[0:1])
-
-# Selecionando linhas e colunas específicas
-colunas = ['conta', 'valor']
-print(df.loc[23:24, colunas])
-
-# Filtrando linhas através do valor do trimestre
-linhas_trimestre = df['trimestre'] == '20262T'
+# Filtrando linhas através do valor do trimestre ('20262T')
+linhas_trimestre = (df['trimestre'] == '20262T')
 colunas_filtro = ['conta', 'valor']
-print(df.loc[linhas_trimestre, colunas_filtro])
+st.write("Dados do trimestre 20262T:", df.loc[linhas_trimestre, colunas_filtro])
 
 # Média do lucro total
-linhas_lucro = df['conta'] == 'lucro'
-coluna_valor = ['valor']
-print(df.loc[linhas_lucro, coluna_valor].mean())
+linhas_lucro = (df['conta'] == 'lucro')
+media_lucro = df.loc[linhas_lucro, 'valor'].mean()
+st.write("Média do Lucro:", media_lucro)
 
 # Gráfico do lucro por trimestre
 fig, ax = plt.subplots(figsize=(10, 5))
@@ -37,6 +31,5 @@ sns.lineplot(data=dados_grafico, x='trimestre', y='valor', ax=ax)
 ax.set_title('Gráfico do Lucro')
 plt.xticks(rotation=45)
 
-# Se estiver usando Streamlit para exibir gráficos, use st.pyplot(fig)
-import streamlit as st
+# Exibindo o gráfico no Streamlit
 st.pyplot(fig)
